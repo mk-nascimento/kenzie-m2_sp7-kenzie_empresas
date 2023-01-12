@@ -1,0 +1,30 @@
+body {
+  background-image: url(/src/assets/img/background-home.svg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+.mobile-header {
+  background-color: var(--grey-1);
+  border-color: rgba(0, 0, 0, 0.2)
+}
+
+.fa-bars, .fa-xmark {
+  color: var(--grey-0);
+}
+
+.form__register-page {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.professional_level {
+  background-color: var(--brand-1);
+  color: rgba(255, 255, 255, 0.9)
+}
+
+dialog {
+  margin: 0 auto;
+  animation: upDown 500ms ease-in-out;
+}

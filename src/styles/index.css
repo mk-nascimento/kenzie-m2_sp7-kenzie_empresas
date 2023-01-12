@@ -1,0 +1,120 @@
+.mobile-header {
+  background-color: var(--grey-1);
+  border-color: rgba(0, 0, 0, 0.2)
+}
+
+.fa-bars, .fa-xmark {
+  color: var(--grey-0);
+}
+
+.desktop-buttons > button, .mobile-buttons > button {
+  border-color: var(--brand-1);
+  width: 9rem;
+  height: 3rem;
+  font-weight: var(--bold);
+  font-size: 1.125rem;
+}
+
+.desktop-buttons > button:hover, .mobile-buttons > button:hover {
+  scale: 1.025;
+  border-width: 2px;
+}
+
+.mobile-buttons, .sector, .job-item, .login {
+  background: var(--grey-1);
+}
+
+.login {
+  color: var(--brand-1);
+}
+
+.register {
+  background: var(--brand-1);
+  color: var(--grey-1);
+}
+
+.aside-header {
+  background-color: var(--brand-1);
+}
+
+.show-options {
+  color: var(--grey-1);
+  transition: 1s;
+}
+
+.aside-title {
+  font-weight: var(--regular);
+  font-size: 1.125rem;
+  color: var(--grey-1);
+  text-transform: capitalize;
+}
+
+.sector {
+  color: var(--brand-1);
+  border-color: var(--brand-1);
+  text-transform: capitalize;
+}
+
+.sector:hover {
+  scale: 1.025;
+}
+
+@keyframes growDown {
+  0% {
+    transform: scaleY(0);
+  }
+
+  60% {
+    transform: scaleY(1.125);
+  }
+
+  100% {
+    transform: scaleY(1)
+  }
+}
+
+aside > ul {
+  background-color: #F8F8F8;
+
+  animation: growDown 500ms ease-in-out forwards;
+  transform-origin: top center
+}
+
+aside > ul::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #F5F5F5;
+}
+
+aside > ul::-webkit-scrollbar {
+  width: 0.3125rem;
+  height: 0.3125rem;
+  background-color: #F5F5F5;
+}
+
+aside > ul::-webkit-scrollbar-thumb {
+  border-radius: 0.25rem;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+  background-color: var(--brand-1);
+}
+
+.job-item {
+  border-color: var(--brand-1);
+  color: var(--grey-0);
+}
+
+.job-item > h3 {
+  font-weight: var(--bold);
+  font-size: 1.25rem;
+  color: var(--grey-0);
+}
+
+.job-item__details > p, .job-item__details > span {
+  font-weight: var(--regular);
+  color: var(--grey-0);
+}
+
+.job-item__details > span {
+  border-color: var(--brand-1);
+  color: var(--brand-1);
+}

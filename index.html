@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/src/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/src/styles/globalStyles.css">
+    <link rel="stylesheet" href="/src/styles/index.css">
+
+    <!-- CDN -->
+    <script src="https://kit.fontawesome.com/91a8ebdb20.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- script page -->
+    <script type="module" defer src="/src/scripts/index.js" defer></script>
+
+    <title>Kenzie Empresas</title>
+  </head>
+
+  <body>
+
+    <header class="border-b">
+
+      <div
+        class="mobile-header md:hidden md:container md:mx-auto px-4 py-[24px] flex justify-between">
+        <img src="./src/assets/img/mobile-logo.svg" alt="Logo Kenzie Empresas"
+          aria-label="Logo Kenzie Empresas">
+        <i class="fa-sharp fa-solid fa-bars"></i>
+        <div
+          class="mobile-buttons w-full md:mx-auto px-4 py-[24px] flex md:hidden gap-[12px] justify-center fixed left-0 top-16 z-20 shadow-lg hidden">
+          <button data-button-function='login' class="border login">Login</button>
+          <button data-button-function='register' class="border register">Cadastro</button>
+        </div>
+      </div>
+      <div
+        class="desktop-header hidden md:flex md:container md:mx-auto md:px-8 md:py-4 justify-between items-center">
+        <img src="./src/assets/img/desktop-logo.svg" alt="Logo Kenzie Empresas"
+          aria-label="Logo Kenzie Empresas">
+        <div class="desktop-buttons hidden md:flex gap-[11px]">
+          <button data-button-function='login' class="border login">Login</button>
+          <button
+            data-button-function='register' class="border register">Cadastro</button>
+        </div>
+      </div>
+
+    </header>
+
+    <main
+      class="md:container md:mx-auto md:flex md:flex-row px-8 mt-6 h-full md:h-[744px] md:justify-between gap-[10%]">
+
+      <div
+        class="hidden background-main md:min-w-[45%] md:flex">
+        <img class='object-cover' src="/src/assets/img/background-home.svg" alt="Background Home">
+      </div>
+
+      <aside
+        class="flex flex-col relative md:min-w-[45%] cursor-pointer">
+        <div
+          class='aside-header px-[16px] py-[8px] relative hover:scale-105'>
+          <h2 id="selected-sector" class='aside-title text-center'>
+            Selecionar Setor
+          </h2>
+          <i
+            class="show-options fa-sharp fa-solid fa-arrow-down absolute top-3 right-4"></i>
+        </div>
+        <ul
+          id="select-sectors__list"
+          class="flex flex-col mt-[4px] gap-[4px] shadow-xl z-10 bg-white hidden">
+        </ul>
+        <ul
+          id="home-jobs"
+          class="md:max-w-[550px] md:min-w-[100%] pt-[26px] pb-[42px] px-[20px] flex flex-row md:flex-col gap-[18px] overflow-x-auto md:overflow-y-auto">
+        </ul>
+      </aside>
+
+    </main>
+  </body>
+
+</html>

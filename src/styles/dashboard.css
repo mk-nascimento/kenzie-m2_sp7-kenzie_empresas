@@ -1,0 +1,16 @@
+.dashboard__header, .user-info {
+  border-color: rgba(0, 0, 0, 0.1);
+}
+
+dialog::backdrop {
+  background: rgba(70, 35, 167, 0.13);
+}
+
+dialog {
+  animation: upDown 500ms ease-in-out;
+}
+
+dialog#update-info {
+  margin: 0 auto;
+  animation: upDown 500ms ease-in-out;
+}

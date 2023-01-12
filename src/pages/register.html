@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/src/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/src/styles/globalStyles.css">
+    <link rel="stylesheet" href="/src/styles/register.css">
+
+    <!-- CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- script page -->
+    <script type="module" defer src="/src/scripts/register.js" defer></script>
+
+    <title>Register Page</title>
+  </head>
+
+  <body>
+    <header class="border-b bg-[var(--grey-1)]">
+
+      <div
+        class="mobile-header md:hidden md:container md:mx-auto px-4 py-[24px] flex justify-between">
+        <img src="/src/assets/img/mobile-logo.svg" alt="Logo Kenzie Empresas"
+          aria-label="Logo Kenzie Empresas">
+        <i class="fa-sharp fa-solid fa-bars"></i>
+        <div
+          class="mobile-buttons w-full md:mx-auto px-4 py-[24px] flex md:hidden gap-[12px] justify-center fixed left-0 top-16 z-20 bg-[var(--grey-1)] shadow-lg hidden">
+          <button data-button-function='home'
+            class="bg-[var(--grey-1)] text-[var(--brand-1)] text-[1.125rem] font-[var(--bold)] border hover:border-2 border-[var(--brand-1)] w-36 h-12 hover:scale-[1.025] home">Home</button>
+          <button data-button-function='login'
+            class="bg-[var(--brand-1)] text-[var(--grey-1)] text-[1.125rem] font-[var(--bold)] border hover:border-2 border-[var(--brand-1)] w-36 h-12 hover:scale-[1.025] login">Login</button>
+        </div>
+      </div>
+      <div
+        class="desktop-header hidden md:flex md:container md:mx-auto md:px-8 md:py-4 justify-between items-center">
+        <img src="/src/assets/img/desktop-logo.svg" alt="Logo Kenzie Empresas"
+          aria-label="Logo Kenzie Empresas">
+        <div class="desktop-buttons hidden md:flex gap-[11px]">
+          <button data-button-function='home'
+            class="bg-[var(--grey-1)] text-[var(--brand-1)] text-[1.125rem] font-[var(--bold)] border hover:border-2 border-[var(--brand-1)] w-36 h-12 hover:scale-[1.025] home">Home</button>
+          <button
+            data-button-function='login'
+            class="bg-[var(--brand-1)] text-[var(--grey-1)] text-[1.125rem] font-[var(--bold)] border hover:border-2 border-[var(--brand-1)] w-36 h-12 hover:scale-[1.025] login">Login</button>
+        </div>
+      </div>
+
+    </header>
+
+    <main class="main__register-page mt-[28px] md:mt-[144px]">
+      <form
+        class="form__register-page md:w-[506px] mx-auto px-[15px] py-[40px] md:px-[42px] flex flex-col gap-[14px]">
+
+        <h1
+          class="text-[2rem] text-[var(--grey-0)] font-[var(--bold)]">Cadastre-se</h1>
+
+        <input
+          class="input-register bg-[var(--grey-1)] w-full border focus:outline-none py-[15px] px-[20px] text-[1.125rem] capitalize"
+          type="text"
+          name="username"
+          id="username" placeholder="Seu nome">
+
+        <input
+          class="input-register bg-[var(--grey-1)] w-full border focus:outline-none py-[15px] px-[20px] text-[1.125rem]"
+          type="text"
+          name="email"
+          id="email" placeholder="Seu e-mail">
+
+        <input
+          class="input-register bg-[var(--grey-1)] w-full border focus:outline-none py-[15px] px-[20px] text-[1.125rem]"
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Sua senha">
+        <div class="bg-[var(--grey-1)] w-full border focus:outline-none py-[15px] px-[20px]">
+          <select
+            class="select-register w-full h-full bg-[var(--grey-1)] text-[1.125rem] flex flex-col"
+            name="professional_level"
+            id="professional_level">
+
+            <option disabled
+              class="professional_level"
+              value="" selected>Nível profissional</option>
+            <option
+              class="professional_level"
+              value="júnior">Júnior</option>
+            <option
+              class="professional_level"
+              value="pleno">Pleno</option>
+            <option
+              class="professional_level"
+              value="sênior">Sênior</option>
+
+          </select>
+        </div>
+        <button id="register"
+          class="bg-[var(--brand-1)] text-[var(--grey-1)] text-[1.125rem] font-[var(--bold)] border hover:border-2 border-[var(--brand-1)] py-[14px] hover:scale-[1.025] register">Cadastre-se</button>
+
+        <button data-button-function='home'
+          class="bg-[var(--grey-1)] text-[var(--brand-1)]
+            text-[1.125rem] font-[var(--bold)]
+            hover:border-2 hover:scale-[1.025] border border-[var(--brand-1)] py-[14px] home">Retornar</button>
+      </form>
+    </main>
+    <dialog id="info-register"
+      class="border-none bg-[var(--error)] font-[var(--regular)] text-[var(--grey-1)] px-[120px] py-[20px] top-0">
+    </dialog>
+
+  </body>
+
+
+</html>

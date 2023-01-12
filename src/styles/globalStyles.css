@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap');
+
+body, input {
+  box-sizing: border-box;
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  --brand-1: #4200FF;
+  --grey-0: #000000;
+  --grey-1: #FFFFFF;
+  --error: #CE4646;
+  --sucess: #4BA036;
+  --bold: 700;
+  --regular: 400;
+}
+
+.close-error {
+  animation: downUP 3s ease-in-out;
+}
+
+@keyframes upDown {
+  0% {
+    transform: translateY(-100vh);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
+
+@keyframes downUP {
+  0% {
+    transform: translateY(0);
+  }
+
+  100% {
+    transform: translateY(-200vh);
+  }
+}

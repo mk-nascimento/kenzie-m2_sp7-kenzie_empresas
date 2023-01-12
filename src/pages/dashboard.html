@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/src/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/src/styles/globalStyles.css">
+    <link rel="stylesheet" href="/src/styles/dashboard.css">
+    <!-- CDN -->
+    <script src="https://kit.fontawesome.com/91a8ebdb20.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Script page -->
+    <script type="module" defer src="/src/scripts/dashboard.js" defer></script>
+
+    <title>Dashboard</title>
+  </head>
+
+  <body class="bg-[var(--grey-1)]">
+    <header
+      class="dashboard__header border-b">
+      <div
+        class="dashboard__header-content md:container mx-auto flex flex-row items-center flex-wrap py-[16px] justify-between">
+        <img src="/src/assets/img/desktop-logo.svg" alt="Logo Kenzie Empresas">
+        <button
+          id="logout"
+          class="dashboard__logout px-[36px] py-[12px] font-[var(--bold)] text-[1.125rem] text-[var(--brand-1)] border border-[var(--brand-1)] hover:scale-[1.025] hover:border-2">Logout</button>
+
+      </div>
+    </header>
+
+    <main
+      class="dashboard__content mt-[24px] flex flex-col gap-[44px]">
+      <section
+        class="user-info md:container mx-auto flex flex-col relative px-[32px] py-[16px] border">
+        <h3
+          class="user-info__username text-[1.875rem] tex-[var(--grey-0)] font-[var(--bold)] capitalize">
+        </h3>
+        <div
+          class="user__info-data flex flex-row items-center justify-between w-9/12 text-[1.375rem] text-[var(--grey-0)] font-[var(--regular)]">
+          <button
+            id="edit"
+            class="info-data__edit-profile absolute top-10 right-9 px-[4px] py-[4px] cursor-pointer hover:scale-[1.1]">
+            <img src="/src/assets/img/pencil.svg" alt="Edit pencil">
+          </button>
+          <p
+            class="info-data__email"></p>
+          <p
+            class="info-data__professional-level capitalize"></p>
+          <p
+            class="info-data__kind-of-work capitalize"></p>
+        </div>
+
+      </section>
+      <section
+        class="company-info bg-[#F8F8F8] md:container mx-auto flex flex-col min-h-[480px] pb-[16px] border">
+        <div class="company-info__header bg-[var(--brand-1)] text-center py-[20px]">
+          <h2
+            class="company-info__title text-[2rem] text-[var(--grey-1)] font-[var(--bold)]">Company
+            Name - Department Name</h2>
+        </div>
+        <ul
+          class="company-info__coworkers px-[56px] pt-[56px] pb-[72px] grid grid-cols-4">
+        </ul>
+        <!-- justify-center items-center -->
+        <div
+          class="company-info__empty-company hidden text-[2.5rem] text-[var(--grey-0)] font-[var(--bold)]">
+          Você ainda não foi contratado</div>
+      </section>
+    </main>
+    <dialog id="edit-modal"
+      class="px-[36px] pt-[40px] pb-[56px] relative">
+      <img src="/src/assets/img/close.svg" alt="close button"
+        id="close-form"
+        class="absolute right-[36px] cursor-pointer hover:scale-125">
+      <form method="dialog" id="edit-form"
+        class="min-w-[512px] flex flex-col gap-[16px] backdrop:bg-[var(--brand-1)]">
+        <h3 class="font-[var(--bold)] text-[2.5rem] text-[var(--grey-0)]">Editar Perfil</h3>
+        <input name="username" type="text" placeholder="Seu nome"
+          class="focus:outline-none border p-[16px]">
+        <input name="email" type="text" placeholder="Seu e-mail"
+          class="focus:outline-none border p-[16px]">
+        <input name="password" type="password" placeholder="Sua senha"
+          class="focus:outline-none border p-[16px]">
+        <button id="edit-patch"
+          class="border border-[var(--brand-1)] bg-[var(--brand-1)] py-[12px] font-[var(--bold)] text-lg text-[var(--grey-1)] hover:scale-[1.025] hover:border-2">Editar
+          perfil</button>
+      </form>
+
+    </dialog>
+    <dialog id="update-info"
+      class="border-none font-[var(--regular)] text-[var(--grey-1)] px-[120px] py-[20px] top-0">
+    </dialog>
+  </body>
+
+</html>

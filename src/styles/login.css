@@ -1,0 +1,42 @@
+body {
+  background-image: url(/src/assets/img/background-home.svg);
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  background-size: cover;
+  background-position: center;
+}
+
+header {
+  background-color: var(--grey-1);
+}
+
+.mobile-header {
+  background-color: var(--grey-1);
+  border-color: rgba(0, 0, 0, 0.2)
+}
+
+.fa-bars, .fa-xmark {
+  color: var(--grey-0);
+}
+
+.desktop-buttons > button, .mobile-buttons > button {
+  border-color: var(--brand-1);
+  width: 9rem;
+  height: 3rem;
+  font-weight: var(--bold);
+  font-size: 1.125rem;
+}
+
+button:hover {
+  scale: 1.025;
+  border-width: 2px;
+}
+
+.form__login-page {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+dialog {
+  margin: 0 auto;
+  animation: upDown 500ms ease-in-out;
+}
