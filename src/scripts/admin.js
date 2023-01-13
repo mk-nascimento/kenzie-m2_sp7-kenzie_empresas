@@ -91,7 +91,7 @@ function listItemDepartment( department ) {
   dptName.innerText = name;
 
   const dptDesc = document.createElement( 'p' );
-  dptDesc.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize';
+  dptDesc.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize break-words';
   dptDesc.innerText = description;
 
   const companyName = document.createElement( 'p' );
@@ -274,13 +274,13 @@ async function deleteDeptForm( id ) {
   let name = null;
   const allDepartments = await getAllDepartments( getLoggedUser() );
   const company = allDepartments.find( department => department.uuid == id );
-  company ? name = company.name : null
+  name = company.name;
 
   modal.innerHTML = '';
   modal.insertAdjacentHTML( 'afterbegin',
     `<form id="form-delete-dept" class="bg-[var(--grey-1)] flex flex-col gap-[40px] max-w-[732px]">
         <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
-        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento: ${name[0].toUpperCase() + name.substring( 1 )} e demitir seus funcionários?</h3>
+        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento: "${name[0].toUpperCase() + name.substring( 1 )}" e demitir seus funcionários?</h3>
         <button id="delete-dept"
           class="bg-[var(--sucess)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[12px] cursor-pointer">Confirmar</button>
     </form>`)
