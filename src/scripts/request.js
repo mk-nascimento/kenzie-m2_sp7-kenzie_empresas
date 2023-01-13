@@ -89,6 +89,20 @@ export async function getUserDepartment( token ) {
   return department
 }
 
+export async function getCoworkes( token ) {
+
+  const getCoworkers = await fetch( `${baseurl}/users/departments/coworkers`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const coworkers = await getCoworkers.json();
+
+  return coworkers;
+}
+
 export async function updateUser( token, data ) {
 
   const update = await fetch( `${baseurl}/users`, {

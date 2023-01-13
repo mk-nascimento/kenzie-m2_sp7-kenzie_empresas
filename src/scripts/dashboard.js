@@ -1,5 +1,5 @@
 import { getLoggedUser, logoff } from './global.js';
-import { getUserDepartment, getUserInfo, updateUser, validateUser } from './request.js';
+import { getCoworkes, getUserDepartment, getUserInfo, updateUser, validateUser } from './request.js';
 
 let userInfo = await getUserInfo( getLoggedUser() );
 
@@ -19,21 +19,36 @@ function onLogoutClick() {
 }
 
 async function checkDepartment() {
-  const { error } = await getUserDepartment( getLoggedUser() );
+  const { error, name, departments } = await getUserDepartment( getLoggedUser() );
+  const mycoworkers = await getCoworkes( getLoggedUser() );
+  const { users } = mycoworkers[0];
+
+  const { department_uuid } = userInfo;
+  const userDept = departments.find( dept => dept.uuid == department_uuid );
   const section = document.querySelector( '.company-info' );
   const departmentHeader = document.querySelector( '.company-info__header' );
-  const coworkers = document.querySelector( '.company-info__coworkers' )
+  const coworkers = document.querySelector( '.company-info__coworkers' );
   const notHired = document.querySelector( '.company-info__empty-company' );
+  const company = document.querySelector( '.company-info__title' );
   if ( error ) {
     section.classList.add( 'justify-center', 'items-center' );
     departmentHeader.classList.add( 'hidden' );
     coworkers.classList.add( 'hidden' );
     notHired.classList.remove( 'hidden' );
   } else {
-    // section.classList.remove( 'justify-center', 'items-center' );
-    // departmentHeader.classList.remove( 'hidden' );
-    // coworkers.classList.remove( 'hidden' );
-    // notHired.classList.add( 'hidden' );
+    section.classList.remove( 'justify-center', 'items-center' );
+    departmentHeader.classList.remove( 'hidden' );
+    coworkers.classList.remove( 'hidden' );
+    notHired.classList.add( 'hidden' );
+    company.innerText = `${name} - ${userDept.name}`
+    users.forEach( coworker => {
+      const { professional_level, username } = coworker;
+      coworkers.insertAdjacentHTML( 'beforeend', `<li class="border border-[var(--brand-1)] px-[24px] pt-[14px] pb-[12px]">
+        <p class="font-[var(--bold)] text-[0.9375rem] text-[var(--grey-0)] capitalize">${username}</p>
+        <p class="font-[var(--regular)] text-[0.9375rem] text-[var(--grey-0)] capitalize">${professional_level}</p>
+      </li>`)
+    } )
+
   }
 }
 checkDepartment()
