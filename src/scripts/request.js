@@ -211,3 +211,30 @@ export async function adminDeleteUser( token, id ) {
 
   return deleteUser;
 }
+
+export async function hireUser( token, data ) {
+  const hire = await fetch( `${baseurl}/departments/hire/`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify( data )
+  } );
+  const responsePatch = await hire.json();
+
+  return responsePatch;
+
+}
+export async function unemployedUsers( token ) {
+  const freeUsers = await fetch( `${baseurl}/admin/out_of_work`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const users = await freeUsers.json();
+
+  return users;
+}

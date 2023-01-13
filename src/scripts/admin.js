@@ -1,5 +1,5 @@
 import { getLoggedUser, logoff } from './global.js';
-import { adminDeleteUser, adminEditUser, deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, postNewDepartment, validateUser } from './request.js';
+import { adminDeleteUser, adminEditUser, deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, hireUser, postNewDepartment, unemployedUsers, validateUser } from './request.js';
 
 async function checkLogin() {
   const token = getLoggedUser();
@@ -99,6 +99,7 @@ function buttonDpt( icon, id, func ) {
   button.addEventListener( 'click', () => {
     const { func, uuid } = event.target.dataset;
     if ( func == 'view' ) {
+      showDeptForm( uuid );
     }
     else if ( func == 'edit' ) {
       editDeptForm( uuid );
@@ -229,7 +230,6 @@ function formEditDepartment() {
 //
 //
 //
-
 function createDepartmentForm() {
   const modal = document.getElementById( 'default-dialog' );
   const button = document.getElementById( 'create-department' );
@@ -275,6 +275,113 @@ function createDepartmentForm() {
 
 }
 createDepartmentForm()
+
+function liEmployees( id, username, level, companies ) {
+
+  const li = document.createElement( 'li' );
+  li.classList = 'flex flex-col gap-[22px] border-b border-[var(--brand-1)] min-w-[308px] bg-[var(--grey-1)] px-[28px] pt-[18px] pb-[20px]';
+
+  const div = document.createElement( 'div' );
+  div.classList = 'user-info flex flex-col gap-[8px]';
+
+  const h3 = document.createElement( 'div' );
+  h3.classList = 'name font-[var(--bold)] text-xl text-[var(--grey-0)] capitalize';
+  h3.innerText = username
+
+  const p1 = document.createElement( 'div' );
+  p1.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize';
+  p1.innerText = level
+
+  const p2 = document.createElement( 'div' );
+  p2.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize';
+  p2.innerText = companies.name
+
+  const button = document.createElement( 'button' );
+  button.id = 'dismiss';
+  button.classList = 'bg-[var(--grey-1)] font-[var(--bold)] text-lg text-[var(--error)] border border-[var(--error)] py-[14px] px-[26px] self-center cursor-pointer';
+  button.dataset.uuid = id;
+  button.innerText = 'Desligar';
+
+  li.append( div, button );
+  div.append( h3, p1, p2 );
+  return li;
+}
+
+async function showDeptForm( id ) {
+  const toHire = await unemployedUsers( getLoggedUser() );
+  const allDepartments = await getAllDepartments( getLoggedUser() );
+  const allUsers = await getAllUsers( getLoggedUser() );
+  const deptUsers = allUsers.filter( user => user.department_uuid == id );
+  const company = allDepartments.find( department => department.uuid == id );
+  const { name, description, companies } = company;
+  const modal = document.getElementById( 'default-dialog' );
+
+  const modalContent = `<div class="show-dept__container flex flex-col gap-[20px]">
+    <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
+    <h3 class="show-dept__title font-[var(--bold)] text-4xl text-[var(--grey-0)] capitalize">${name}</h3>
+    <div class="show-dept__info flex flex-row items-center justify-between gap-[64px]">
+      <div class="dept__info flex flex-col gap-[40px]">
+        <p class="dept__info-desc font-[var(--bold)] text-xl text-[var(--grey-0)] normal-case">${description}</p>
+        <p class="dept__info-company font-[var(--regular)] text-lg text-[var(--grey-0)]">${companies.name}</p>
+      </div>
+      <div class="dept__hire-form">
+        <form id="hire-form" class="flex flex-col gap-[14px]">
+          <div
+            class="hire-select-container bg-[var(--grey-1)] p-[12px] border border-30-op">
+            <select id="hire-select" class="cursor-pointer focus:outline-none bg-[var(--grey-1)]">
+              <option value="" disabled selected>Selecionar usuário⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</option>
+              <option value="1"
+                class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]">1
+              </option>
+            </select>
+          </div>
+          <button id="hire"
+            class="bg-[var(--sucess)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[14px] px-[26px] self-end">Contratar</button>
+        </form>
+      </div>
+    </div>
+    <ul id="dept-employees" class="show-dept__employees mt-[28px] bg-[#F8F8F8] px-[32px] pt-[44px] pb-[52px] overflow-x-auto flex flex-row gap-[32px]"></ul>
+  </div>`
+
+  modal.innerHTML = '';
+  modal.insertAdjacentHTML( 'afterbegin', modalContent )
+  modal.classList = 'relative px-[40px] pt-[40px] pb-[68px] max-w-[52.5rem]';
+  const close = document.getElementById( 'x-close' );
+  const hire = document.getElementById( 'hire' );
+  const select = document.getElementById( 'hire-select' );
+  const employees = document.getElementById( 'dept-employees' );
+
+  toHire.forEach( user => {
+    const { uuid, username } = user; select.insertAdjacentHTML( 'beforeend', `<option value="${uuid}"
+      class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)] capitalize">${username}</option>` )
+  } )
+
+  deptUsers.forEach( user => {
+    const { uuid, username, professional_level } = user;
+
+    employees.append( liEmployees( uuid, username, professional_level, companies ) )
+  } )
+
+  hire.addEventListener( 'click', async () => {
+    event.preventDefault();
+    const hireData = {};
+    hireData['user_uuid'] = select.value;
+    hireData['department_uuid'] = id;
+    console.log( hireData );
+    const patch = await hireUser( getLoggedUser(), hireData );
+    const { error } = patch;
+    if ( !error ) {
+      modal.close();
+      renderToast( `⠀⠀⠀⠀⠀Hired!!!⠀⠀⠀⠀⠀`, 'bg-[var(--sucess)]' );
+      setTimeout( () => { window.location.reload() }, 1500 );
+      modal.innerHTML = '';
+    } else { renderToast( error.toUpperCase(), 'bg-[var(--error)]' ) }
+  } )
+
+  modal.showModal();
+  close.addEventListener( 'click', () => { modal.close(); modal.innerHTML = ''; } )
+
+}
 
 function editDeptForm( id ) {
   const modal = document.getElementById( 'default-dialog' );
