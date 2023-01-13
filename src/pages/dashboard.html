@@ -9,7 +9,6 @@
     <link rel="stylesheet" href="/src/styles/globalStyles.css">
     <link rel="stylesheet" href="/src/styles/dashboard.css">
     <!-- CDN -->
-    <script src="https://kit.fontawesome.com/91a8ebdb20.js" crossorigin="anonymous"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Script page -->
     <script type="module" defer src="/src/scripts/dashboard.js" defer></script>
@@ -78,11 +77,14 @@
         class="min-w-[512px] flex flex-col gap-[16px] backdrop:bg-[var(--brand-1)]">
         <h3 class="font-[var(--bold)] text-[2.5rem] text-[var(--grey-0)]">Editar Perfil</h3>
         <input name="username" type="text" placeholder="Seu nome"
-          class="focus:outline-none border p-[16px]">
+          class="focus:outline-none border p-[16px] bg-[var(--grey-1)]
+text-[1.125rem]">
         <input name="email" type="text" placeholder="Seu e-mail"
-          class="focus:outline-none border p-[16px]">
+          class="focus:outline-none border p-[16px] bg-[var(--grey-1)]
+text-[1.125rem]">
         <input name="password" type="password" placeholder="Sua senha"
-          class="focus:outline-none border p-[16px]">
+          class="focus:outline-none border p-[16px] bg-[var(--grey-1)]
+text-[1.125rem]">
         <button id="edit-patch"
           class="border border-[var(--brand-1)] bg-[var(--brand-1)] py-[12px] font-[var(--bold)] text-lg text-[var(--grey-1)] hover:scale-[1.025] hover:border-2">Editar
           perfil</button>

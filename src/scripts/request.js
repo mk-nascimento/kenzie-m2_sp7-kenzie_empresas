@@ -103,3 +103,59 @@ export async function updateUser( token, data ) {
 
   return resposeUpdate;
 }
+
+export async function getAllUsers( token ) {
+
+  const allUsers = await fetch( `${baseurl}/users`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const users = await allUsers.json();
+
+  return users;
+}
+
+export async function getAllDepartments( token ) {
+
+  const allDepartments = await fetch( `${baseurl}/departments`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const departments = await allDepartments.json();
+
+  return departments;
+}
+
+export async function getDepartmentsByCompany( token, id ) {
+
+  const departments = await fetch( `${baseurl}/departments/${id}`, {
+    method: 'GET',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const responseDepartments = await departments.json();
+
+  return responseDepartments;
+}
+
+export async function postNewDepartment( token, data ) {
+  const postDepartment = await fetch( `${baseurl}/departments`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify( data )
+  } );
+  const responstPost = await postDepartment.json();
+
+  return responstPost;
+}

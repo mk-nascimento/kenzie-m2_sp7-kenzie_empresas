@@ -27,8 +27,10 @@ async function checkLogin() {
   let userAdmin = ''
   if ( token ) { userAdmin = await validateUser( token ) };
   if ( token && !userAdmin ) { window.location.replace( '/src/pages/dashboard.html' ) }
-  else if ( token && userAdmin ) { };
+  else if ( token && userAdmin ) { window.location.replace( '/src/pages/admin.html' ) }
+
 }
+checkLogin();
 
 function redirectPage() {
   const allButtons = document.querySelectorAll( '[data-button-function]' );
@@ -74,5 +76,3 @@ function renderModal( text ) {
   setTimeout( () => { modal.classList.add( 'close-error' ) }, 2000 )
   setTimeout( () => { modal.close(); modal.classList.remove( 'close-error' ); modal.innerHTML = '' }, 3500 )
 }
-
-checkLogin();

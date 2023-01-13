@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="/src/assets/img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/src/styles/globalStyles.css">
+    <link rel="stylesheet" href="/src/styles/admin.css">
+    <!-- CDN -->
+    <script src="https://kit.fontawesome.com/91a8ebdb20.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Script page -->
+    <script type="module" defer src="/src/scripts/admin.js" defer></script>
+
+    <title>Admin Page</title>
+  </head>
+
+  <body>
+    <header
+      class="admin__header border-b">
+      <div
+        class="admin__header-content md:container mx-auto flex flex-row items-center flex-wrap py-[16px] justify-between">
+        <img src="/src/assets/img/desktop-logo.svg" alt="Logo Kenzie Empresas">
+        <button
+          id="logout"
+          class="admin__logout px-[36px] py-[12px] font-[var(--bold)] text-[1.125rem] text-[var(--brand-1)] border border-[var(--brand-1)] hover:scale-[1.025] hover:border-2">Logout</button>
+
+      </div>
+    </header>
+    <main
+      class="admin__main mt-[54px] mb-[44px] flex flex-col gap-[68px]">
+      <dialog id="default-dialog"></dialog>
+      <dialog id="toast"></dialog>
+      <section
+        class=" md:container mx-auto main-department flex flex-col gap-[20px]">
+        <div class="department-header flex flex-row justify-between items-center">
+          <h2
+            class="font-[var(--bold)] text-3xl text-[var(--grey-0)]">Departamentos</h2>
+          <div
+            class="select-area bg-[var(--grey-1)] px-[20px] border border-[#000] rounded-full cursor-pointer hover:scale-110">
+            <select id="select-department"
+              class="bg-[var(--grey-1)] flex flex-row py-[4px] gap-[20px] cursor-pointer focus:outline-none">
+              <option value="" data-id="none" disabled selected>Selecionar Empresa</option>
+            </select>
+          </div>
+          <button id="create-department"
+            class="department-header__button bg-[var(--brand-1)] flex flex-row items-center gap-[20px] px-[20px] py-[12px] border border-[var(--brand-1)] hover:scale-110 cursor-pointer">
+            <img src="/src/assets/img/plus.svg">
+            <span
+              class="font-[var(--bold)] text-lg text-[var(--grey-1)]">Criar</span>
+          </button>
+
+        </div>
+        <ul id="departments"
+          class="bg-[#F8F8F8] overflow-y-auto department-list px-[56px] py-[32px] grid grid-cols-2 gap-[28px] max-h-[385px]">
+        </ul>
+      </section>
+
+      <section
+        class=" md:container mx-auto main-users flex flex-col gap-[20px]">
+        <h3
+          class="users-title font-[var(--bold)] text-3xl text-[var(--grey-0)] text-center">
+          Usuários cadastrados</h3>
+        <ul id="users"
+          class="bg-[#F8F8F8] users-list px-[56px] py-[32px] grid grid-cols-2 gap-[28px] max-h-[385px] overflow-y-auto">
+        </ul>
+      </section>
+
+    </main>
+  </body>
+
+</html>

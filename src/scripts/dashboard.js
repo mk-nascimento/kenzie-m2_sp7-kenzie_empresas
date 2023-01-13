@@ -1,12 +1,16 @@
 import { getLoggedUser, logoff } from './global.js';
-import { getUserDepartment, getUserInfo, updateUser } from './request.js';
+import { getUserDepartment, getUserInfo, updateUser, validateUser } from './request.js';
 
 let userInfo = await getUserInfo( getLoggedUser() );
 
-function notlogged() {
-  !getLoggedUser() ? window.location.replace( '/src/pages/login.html' ) : null
+async function checkLogin() {
+  const token = getLoggedUser() || null;
+  let userAdmin = ''
+  if ( token ) { userAdmin = await validateUser( token ) };
+  if ( !token ) { window.location.replace( '/' ) }
+  else if ( token && userAdmin ) { window.location.replace( '/src/pages/admin.html' ) }
 }
-notlogged();
+checkLogin();
 
 function onLogoutClick() {
   const button = document.getElementById( 'logout' );
@@ -72,7 +76,7 @@ function editProfile( info ) {
     const dataUpdate = {};
     inputs.forEach( input => dataUpdate[input.name] = input.value )
     const { error } = await updateUser( getLoggedUser(), dataUpdate );
-    if ( !error ) { renderModal( 'profile updated successfully', 'bg-[var(--sucess)]' ); setTimeout( () => { window.location.reload() }, 3500 ) }
+    if ( !error ) { renderModal( 'profile updated successfully', 'bg-[var(--sucess)]' ); setTimeout( () => { window.location.reload() }, 1500 ) }
     else { renderModal( error, 'bg-[var(--error)]' ) }
   } )
 
