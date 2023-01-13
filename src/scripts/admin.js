@@ -192,6 +192,8 @@ function formEditDepartment() {
   return form
 }
 
+//
+
 function createDepartmentForm() {
   const modal = document.getElementById( 'default-dialog' );
   const button = document.getElementById( 'create-department' );
@@ -269,16 +271,16 @@ function editDeptForm( id ) {
 
 async function deleteDeptForm( id ) {
   const modal = document.getElementById( 'default-dialog' );
-  let companyName = null;
+  let name = null;
   const allDepartments = await getAllDepartments( getLoggedUser() );
   const company = allDepartments.find( department => department.uuid == id );
-  company ? companyName = company.companies.name : null
+  company ? name = company.name : null
 
   modal.innerHTML = '';
   modal.insertAdjacentHTML( 'afterbegin',
     `<form id="form-delete-dept" class="bg-[var(--grey-1)] flex flex-col gap-[40px] max-w-[732px]">
         <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
-        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento ${companyName} e demitir seus funcionários?</h3>
+        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento: ${name[0].toUpperCase() + name.substring( 1 )} e demitir seus funcionários?</h3>
         <button id="delete-dept"
           class="bg-[var(--sucess)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[12px] cursor-pointer">Confirmar</button>
     </form>`)
