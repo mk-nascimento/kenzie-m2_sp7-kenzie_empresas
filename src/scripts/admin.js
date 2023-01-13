@@ -59,14 +59,11 @@ function buttonDpt( icon, id, func ) {
   button.addEventListener( 'click', () => {
     const { func, uuid } = event.target.dataset;
     if ( func == 'view' ) {
-      console.log( 'view' );
     }
     else if ( func == 'edit' ) {
-      console.log( 'edit' );
       editDeptForm( uuid );
     }
     else if ( func == 'delete' ) {
-      console.log( 'delete' );
       deleteDeptForm( uuid );
     }
   } )
@@ -216,7 +213,6 @@ function createDepartmentForm() {
       const dep = {}
       inputs.forEach( input => { dep[input.name] = input.value } )
       dep['company_uuid'] = select.value;
-      console.log( dep );
       const post = await postNewDepartment( getLoggedUser(), dep );
       const { error } = post;
       if ( !error ) {
