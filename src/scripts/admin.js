@@ -1,5 +1,5 @@
 import { getLoggedUser, logoff } from './global.js';
-import { deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, postNewDepartment, validateUser } from './request.js';
+import { adminDeleteUser, adminEditUser, deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, postNewDepartment, validateUser } from './request.js';
 
 async function checkLogin() {
   const token = getLoggedUser();
@@ -16,6 +16,28 @@ function onLogoutClick() {
   return button;
 }
 
+function buttonUser( icon, id, func ) {
+  const button = document.createElement( 'button' );
+  const img = document.createElement( 'img' );
+  button.appendChild( img );
+  button.classList = 'hover:scale-110';
+  img.dataset.uuid = id;
+  img.dataset.func = func;
+  img.src = `/src/assets/img/${icon}`
+
+  button.addEventListener( 'click', () => {
+    const { func, uuid } = event.target.dataset;
+    if ( func == 'edit' ) {
+      editUserForm( uuid );
+    }
+    else if ( func == 'delete' ) {
+      deleteUser( uuid );
+    }
+  } )
+
+  return button;
+}
+
 async function listUser( user ) {
   const { username, professional_level, department_uuid, uuid } = user;
   let companyName = null;
@@ -25,19 +47,31 @@ async function listUser( user ) {
     company ? companyName = company.companies.name : null
   }
 
-  const li = `
-  <li class="user bg-[var(--grey-1)] border-b border-[var(--brand-1)] p-[28px] flex flex-col gap-[28px]">
-    <div class="user-info flex flex-col gap-[10px]">
-      <h3 class="font-[var(--bold)] text-xl text-[var(--grey-0)] capitalize">${username}</h3>
-      <p class="font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize">${professional_level ? professional_level : '-'}</p>
-      <p class="font-[var(--regular)] text-lg text-[var(--grey-0)]">${companyName ? companyName : '-'}</p>
-    </div>
-    <div class="user-icons flex flex-row items-center justify-center gap-[16px]">
-      <button id="edit-user" class="hover:scale-110" data-uuid="${uuid}"><img src="/src/assets/img/pencil.svg"></button>
-      <button id="trash-user" class="hover:scale-110" data-uuid="${uuid}"><img src="/src/assets/img/trash.svg"></button>
-    </div>
-  </li>
-  `
+  const li = document.createElement( 'li' );
+  li.classList = 'user bg-[var(--grey-1)] border-b border-[var(--brand-1)] p-[28px] flex flex-col gap-[28px]';
+
+  const userInfo = document.createElement( 'div' );
+  userInfo.classList = 'user-info flex flex-col gap-[10px]';
+
+  const userInfoName = document.createElement( 'h3' );
+  userInfoName.classList = 'font-[var(--bold)] text-xl text-[var(--grey-0)] capitalize';
+  userInfoName.innerText = username;
+
+  const userProfLevel = document.createElement( 'p' );
+  userProfLevel.classList = 'ont-[var(--regular)] text-lg text-[var(--grey-0)] capitalize break-words';
+  userProfLevel.innerText = professional_level;
+
+  const pCompanyName = document.createElement( 'p' );
+  pCompanyName.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize break-words';
+  pCompanyName.innerText = companyName;
+
+  const buttonsDiv = document.createElement( 'div' );
+  buttonsDiv.classList = 'user-icons flex flex-row items-center justify-center gap-[16px]';
+
+  li.append( userInfo, buttonsDiv );
+  userInfo.append( userInfoName, userProfLevel, pCompanyName );
+  buttonsDiv.append( buttonUser( 'pencil.svg', uuid, 'edit' ), buttonUser( 'trash.svg', uuid, 'delete' ) );
+
   return li;
 }
 
@@ -47,7 +81,7 @@ async function renderUsers( token ) {
   const allUsers = await getAllUsers( token );
 
   allUsers.forEach( async ( user ) => {
-    ul.insertAdjacentHTML( 'beforeend', await listUser( user ) )
+    ul.append( await listUser( user ) )
   } )
 
 }
@@ -154,8 +188,9 @@ function renderDepartmentsByCompany() {
   } )
 }
 renderDepartmentsByCompany()
-
+//
 // Form -- Area
+//
 function formPostDepartment() {
   const form = `<form id="form-post-dept" class="bg-[var(--grey-1)] flex flex-col gap-[14px]">
     <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
@@ -189,9 +224,10 @@ function formEditDepartment() {
     alterações</button>
 </form>`
 
-  return form
+  return form;
 }
-
+//
+//
 //
 
 function createDepartmentForm() {
@@ -306,16 +342,118 @@ async function deleteDeptForm( id ) {
 
 }
 
-function renderToast( text, color ) {
+function editUserForm( id ) {
+  const modal = document.getElementById( 'default-dialog' );
+  modal.innerHTML = '';
+  modal.insertAdjacentHTML( 'afterbegin',
+    `<form id="form-upd-user" class="bg-[var(--grey-1)] flex flex-col gap-[14px]">
+      <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
+      <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] mb-[8px] select-none">Editar Usuário</h3>
+      <div class="bg-[var(--grey-1)] p-[16px] border border-30-op">
+        <select
+          class="bg-[var(--grey-1)] focus:outline-none font-[var(--regular)] text-lg text-[var(--grey-0)] w-full h-full cursor-pointer"
+          id="work-modalities">
+          <option disabled selected value="">Selecionar modalidade de trabalho</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="presencial">Presencial</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="home office">Home Office</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="hibrido">Híbrido</option>
+        </select>
+      </div>
+      <div class="bg-[var(--grey-1)] p-[16px] border border-30-op">
+        <select
+          class="bg-[var(--grey-1)] focus:outline-none font-[var(--regular)] text-lg text-[var(--grey-0)] w-full h-full cursor-pointer"
+          id="professional-level">
+          <option disabled selected value="">Selecionar nível profissional</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="estágio">Estágio</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="júnior">Júnior</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="pleno">Pleno</option>
+          <option class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]"
+            value="sênior">Sênior</option>
+        </select>
+      </div>
+      <button id="save-update"
+        class="bg-[var(--brand-1)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[12px]">Editar</button>
+    </form>`)
+  modal.classList = 'relative p-[40px] min-w-[508px]';
+  const close = document.getElementById( 'x-close' );
+  const save = document.getElementById( 'save-update' );
+  const kindOfWork = document.getElementById( 'work-modalities' );
+  const professionalLevel = document.getElementById( 'professional-level' );
+
+  save.addEventListener( 'click', async () => {
+    event.preventDefault()
+    const user = {}
+    user['kind_of_work'] = kindOfWork.value;
+    user['professional_level'] = professionalLevel.value;
+
+    const patch = await adminEditUser( getLoggedUser(), user, id );
+
+    const { error } = patch;
+    if ( !error ) {
+      modal.close();
+      renderToast( 'User updated successfully', 'bg-[var(--sucess)]' );
+      setTimeout( () => { window.location.reload() }, 1500 );
+      modal.innerHTML = '';
+
+    } else { renderToast( error, 'bg-[var(--error)]' ) }
+  } )
+
+  modal.showModal();
+  close.addEventListener( 'click', () => { modal.close(); modal.innerHTML = ''; } )
+
+}
+
+async function deleteUser( id ) {
+  const modal = document.getElementById( 'default-dialog' );
+  let name = null;
+  const allUsers = await getAllUsers( getLoggedUser() );
+  const user = allUsers.find( user => user.uuid == id );
+  name = user.username;
+
+  modal.innerHTML = '';
+  modal.insertAdjacentHTML( 'afterbegin',
+    `<form id="form-delete-user" class="bg-[var(--grey-1)] flex flex-col gap-[40px] max-w-[732px]">
+        <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
+        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja remover o usuário: "${name.toUpperCase()}"?</h3>
+        <button id="delete-user"
+          class="bg-[var(--sucess)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[12px] cursor-pointer">Confirmar</button>
+    </form>`)
+  modal.classList = 'relative px-[156px] py-[68px]';
+  const close = document.getElementById( 'x-close' );
+  const deleteUserButton = document.getElementById( 'delete-user' );
+
+  deleteUserButton.addEventListener( 'click', async () => {
+    event.preventDefault();
+
+    const deleteUser = await adminDeleteUser( getLoggedUser(), id );
+    const { ok } = deleteUser;
+    if ( ok ) {
+      modal.close();
+      renderToast( 'User deleted successfully', 'bg-[var(--sucess)]' );
+      setTimeout( () => { window.location.reload() }, 1500 );
+      modal.innerHTML = '';
+    } else { renderToast( error, 'bg-[var(--error)]' ) }
+  } )
+
+  modal.showModal();
+  close.addEventListener( 'click', () => { modal.close(); modal.innerHTML = ''; } )
+
+}
+
+function renderToast( text, bgColor ) {
   const toast = document.getElementById( 'toast' );
-  toast.classList.add( color )
+  toast.classList.add( bgColor )
   toast.insertAdjacentHTML( 'afterbegin', `<h2 class="font-[var(--bold)] text-xl text-[var(--grey-1)]" >${text}</h2>` );
 
   toast.show();
   setTimeout( () => { toast.classList.add( 'close-error' ) }, 2000 )
-  setTimeout( () => { toast.close(); toast.classList.remove( 'close-error', color ); toast.innerHTML = '' }, 3500 )
+  setTimeout( () => { toast.close(); toast.classList.remove( 'close-error', bgColor ); toast.innerHTML = '' }, 3500 )
 }
-
-
 
 onLogoutClick();

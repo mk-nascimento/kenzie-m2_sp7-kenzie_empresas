@@ -173,6 +173,7 @@ export async function editDepartment( token, data, id ) {
 
   return responsePatch;
 }
+
 export async function deleteDepartment( token, id ) {
   const deleteDept = await fetch( `${baseurl}/departments/${id}`, {
     method: 'DELETE',
@@ -183,4 +184,30 @@ export async function deleteDepartment( token, id ) {
   } );
 
   return deleteDept;
+}
+
+export async function adminEditUser( token, data, id ) {
+  const editUser = await fetch( `${baseurl}/admin/update_user/${id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify( data )
+  } );
+  const responsePatch = await editUser.json();
+
+  return responsePatch;
+}
+
+export async function adminDeleteUser( token, id ) {
+  const deleteUser = await fetch( `${baseurl}/admin/delete_user/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+
+  return deleteUser;
 }
