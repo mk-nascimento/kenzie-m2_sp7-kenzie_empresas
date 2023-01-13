@@ -79,8 +79,8 @@ async function renderUsers( token ) {
 
   const ul = document.getElementById( 'users' );
   const allUsers = await getAllUsers( token );
-
-  allUsers.forEach( async ( user ) => {
+  const notAdmin = allUsers.filter( user => user.username.toLowerCase() != 'admin' )
+  notAdmin.forEach( async ( user ) => {
     ul.append( await listUser( user ) )
   } )
 
