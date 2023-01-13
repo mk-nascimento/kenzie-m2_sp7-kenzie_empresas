@@ -155,7 +155,32 @@ export async function postNewDepartment( token, data ) {
     },
     body: JSON.stringify( data )
   } );
-  const responstPost = await postDepartment.json();
+  const responsePost = await postDepartment.json();
 
-  return responstPost;
+  return responsePost;
+}
+
+export async function editDepartment( token, data, id ) {
+  const editDepartment = await fetch( `${baseurl}/departments/${id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify( data )
+  } );
+  const responsePatch = await editDepartment.json();
+
+  return responsePatch;
+}
+export async function deleteDepartment( token, id ) {
+  const deleteDept = await fetch( `${baseurl}/departments/${id}`, {
+    method: 'DELETE',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+
+  return deleteDept;
 }
