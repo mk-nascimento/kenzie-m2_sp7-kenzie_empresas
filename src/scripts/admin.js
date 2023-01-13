@@ -399,15 +399,18 @@ async function showDeptForm( id ) {
 
 }
 
-function editDeptForm( id ) {
+async function editDeptForm( id ) {
   const modal = document.getElementById( 'default-dialog' );
+  const allDepartments = await getAllDepartments( getLoggedUser() );
+  const openDepartment = allDepartments.find( dept => dept.uuid == id )
+
   modal.innerHTML = '';
   modal.insertAdjacentHTML( 'afterbegin', formEditDepartment() )
   modal.classList = 'relative p-[40px]';
   const close = document.getElementById( 'x-close' );
   const save = document.getElementById( 'save-update' );
   const input = document.querySelector( '#form-upd-dept > input' );
-
+  input.value = openDepartment.description;
   save.addEventListener( 'click', async () => {
     event.preventDefault()
     const dep = {}
