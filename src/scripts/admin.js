@@ -1,4 +1,4 @@
-import { getLoggedUser } from './global.js';
+import { getLoggedUser, logoff } from './global.js';
 import { deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, postNewDepartment, validateUser } from './request.js';
 
 async function checkLogin() {
@@ -9,6 +9,12 @@ async function checkLogin() {
   else if ( token && !userAdmin ) { window.location.replace( '/src/pages/dashboard.html' ) }
 }
 checkLogin();
+
+function onLogoutClick() {
+  const button = document.getElementById( 'logout' );
+  button.addEventListener( 'click', () => { logoff() } );
+  return button;
+}
 
 async function listUser( user ) {
   const { username, professional_level, department_uuid, uuid } = user;
@@ -261,13 +267,18 @@ function editDeptForm( id ) {
 
 }
 
-function deleteDeptForm( id ) {
+async function deleteDeptForm( id ) {
   const modal = document.getElementById( 'default-dialog' );
+  let companyName = null;
+  const allDepartments = await getAllDepartments( getLoggedUser() );
+  const company = allDepartments.find( department => department.uuid == id );
+  company ? companyName = company.companies.name : null
+
   modal.innerHTML = '';
   modal.insertAdjacentHTML( 'afterbegin',
-    `<form id="form-delete-dept" class="bg-[var(--grey-1)] flex flex-col gap-[40px]">
+    `<form id="form-delete-dept" class="bg-[var(--grey-1)] flex flex-col gap-[40px] max-w-[732px]">
         <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
-        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento NOME e demitir seus funcionários?</h3>
+        <h3 class="font-[var(--bold)] text-4xl text-[var(--grey-0)] select-none">Realmente deseja deletar o Departamento ${companyName} e demitir seus funcionários?</h3>
         <button id="delete-dept"
           class="bg-[var(--sucess)] font-[var(--bold)] text-lg text-[var(--grey-1)] py-[12px] cursor-pointer">Confirmar</button>
     </form>`)
@@ -302,3 +313,7 @@ function renderToast( text, color ) {
   setTimeout( () => { toast.classList.add( 'close-error' ) }, 2000 )
   setTimeout( () => { toast.close(); toast.classList.remove( 'close-error', color ); toast.innerHTML = '' }, 3500 )
 }
+
+
+
+onLogoutClick();
