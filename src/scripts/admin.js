@@ -1,5 +1,5 @@
 import { getLoggedUser, logoff } from './global.js';
-import { adminDeleteUser, adminEditUser, deleteDepartment, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, hireUser, postNewDepartment, unemployedUsers, validateUser } from './request.js';
+import { adminDeleteUser, adminEditUser, deleteDepartment, dismissUser, editDepartment, getAllCompanies, getAllDepartments, getAllUsers, getDepartmentsByCompany, hireUser, postNewDepartment, unemployedUsers, validateUser } from './request.js';
 
 async function checkLogin() {
   const token = getLoggedUser();
@@ -262,7 +262,7 @@ function createDepartmentForm() {
       if ( !error ) {
         modal.close();
         renderToast( 'Department created successfully', 'bg-[var(--sucess)]' );
-        setTimeout( () => { window.location.reload() }, 1500 );
+        setTimeout( () => { window.location.reload() }, 2000 );
         modal.innerHTML = '';
       } else { renderToast( error, 'bg-[var(--error)]' ) }
 
@@ -275,6 +275,30 @@ function createDepartmentForm() {
 
 }
 createDepartmentForm()
+
+function dismissButton( id, companies ) {
+  const modal = document.getElementById( 'default-dialog' );
+  const button = document.createElement( 'button' );
+  button.classList = 'bg-[var(--grey-1)] font-[var(--bold)] text-lg text-[var(--error)] border border-[var(--error)] py-[14px] px-[26px] self-center cursor-pointer';
+  button.dataset.uuid = id;
+  button.innerText = 'Desligar';
+
+  button.addEventListener( 'click', async ( e ) => {
+    event.preventDefault();
+    const idUser = e.target.dataset.uuid;
+
+    const dismiss = await dismissUser( getLoggedUser(), idUser )
+    const { error, username } = dismiss;
+    if ( !error ) {
+      modal.close();
+      renderToast( `⠀⠀⠀⠀⠀${username} fired from ${companies.name}!!!⠀⠀⠀⠀⠀`, 'bg-[var(--sucess)]' );
+      setTimeout( () => { window.location.reload() }, 2000 );
+      modal.innerHTML = '';
+    } else { renderToast( error, 'bg-[var(--error)]' ) };
+  } )
+
+  return button
+}
 
 function liEmployees( id, username, level, companies ) {
 
@@ -296,11 +320,7 @@ function liEmployees( id, username, level, companies ) {
   p2.classList = 'font-[var(--regular)] text-lg text-[var(--grey-0)] capitalize';
   p2.innerText = companies.name
 
-  const button = document.createElement( 'button' );
-  button.id = 'dismiss';
-  button.classList = 'bg-[var(--grey-1)] font-[var(--bold)] text-lg text-[var(--error)] border border-[var(--error)] py-[14px] px-[26px] self-center cursor-pointer';
-  button.dataset.uuid = id;
-  button.innerText = 'Desligar';
+  const button = dismissButton( id, companies );
 
   li.append( div, button );
   div.append( h3, p1, p2 );
@@ -330,9 +350,6 @@ async function showDeptForm( id ) {
             class="hire-select-container bg-[var(--grey-1)] p-[12px] border border-30-op">
             <select id="hire-select" class="cursor-pointer focus:outline-none bg-[var(--grey-1)]">
               <option value="" disabled selected>Selecionar usuário⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀</option>
-              <option value="1"
-                class="bg-[var(--grey-1)] font-[var(--regular)] text-base text-[var(--grey-0)]">1
-              </option>
             </select>
           </div>
           <button id="hire"
@@ -367,13 +384,12 @@ async function showDeptForm( id ) {
     const hireData = {};
     hireData['user_uuid'] = select.value;
     hireData['department_uuid'] = id;
-    console.log( hireData );
     const patch = await hireUser( getLoggedUser(), hireData );
-    const { error } = patch;
+    const { error, username } = patch;
     if ( !error ) {
       modal.close();
-      renderToast( `⠀⠀⠀⠀⠀Hired!!!⠀⠀⠀⠀⠀`, 'bg-[var(--sucess)]' );
-      setTimeout( () => { window.location.reload() }, 1500 );
+      renderToast( `⠀⠀⠀⠀⠀${username} Hired in ${companies.name}!!!⠀⠀⠀⠀⠀`, 'bg-[var(--sucess)]' );
+      setTimeout( () => { window.location.reload() }, 2000 );
       modal.innerHTML = '';
     } else { renderToast( error.toUpperCase(), 'bg-[var(--error)]' ) }
   } )
@@ -402,7 +418,7 @@ function editDeptForm( id ) {
     if ( !error ) {
       modal.close();
       renderToast( 'Department updated successfully', 'bg-[var(--sucess)]' );
-      setTimeout( () => { window.location.reload() }, 1500 );
+      setTimeout( () => { window.location.reload() }, 2000 );
       modal.innerHTML = '';
     } else { renderToast( error, 'bg-[var(--error)]' ) }
   } )
@@ -439,7 +455,7 @@ async function deleteDeptForm( id ) {
     if ( ok ) {
       modal.close();
       renderToast( 'Department deleted successfully', 'bg-[var(--sucess)]' );
-      setTimeout( () => { window.location.reload() }, 1500 );
+      setTimeout( () => { window.location.reload() }, 2000 );
       modal.innerHTML = '';
     } else { renderToast( error, 'bg-[var(--error)]' ) }
   } )
@@ -505,7 +521,7 @@ function editUserForm( id ) {
     if ( !error ) {
       modal.close();
       renderToast( 'User updated successfully', 'bg-[var(--sucess)]' );
-      setTimeout( () => { window.location.reload() }, 1500 );
+      setTimeout( () => { window.location.reload() }, 2000 );
       modal.innerHTML = '';
 
     } else { renderToast( error, 'bg-[var(--error)]' ) }
@@ -543,7 +559,7 @@ async function deleteUser( id ) {
     if ( ok ) {
       modal.close();
       renderToast( 'User deleted successfully', 'bg-[var(--sucess)]' );
-      setTimeout( () => { window.location.reload() }, 1500 );
+      setTimeout( () => { window.location.reload() }, 2000 );
       modal.innerHTML = '';
     } else { renderToast( error, 'bg-[var(--error)]' ) }
   } )

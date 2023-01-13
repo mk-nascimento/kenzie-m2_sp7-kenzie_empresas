@@ -226,6 +226,7 @@ export async function hireUser( token, data ) {
   return responsePatch;
 
 }
+
 export async function unemployedUsers( token ) {
   const freeUsers = await fetch( `${baseurl}/admin/out_of_work`, {
     method: 'GET',
@@ -237,4 +238,18 @@ export async function unemployedUsers( token ) {
   const users = await freeUsers.json();
 
   return users;
+}
+
+export async function dismissUser( token, id ) {
+  const dismiss = await fetch( `${baseurl}/departments/dismiss/${id}`, {
+    method: 'PATCH',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  } );
+  const responsePatch = await dismiss.json();
+
+  return responsePatch;
+
 }
