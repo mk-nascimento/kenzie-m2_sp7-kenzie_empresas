@@ -21,10 +21,8 @@ function onLogoutClick() {
 async function checkDepartment() {
   const { error, name, departments } = await getUserDepartment( getLoggedUser() );
   const mycoworkers = await getCoworkes( getLoggedUser() );
-  const { users } = mycoworkers[0];
 
   const { department_uuid } = userInfo;
-  const userDept = departments.find( dept => dept.uuid == department_uuid );
   const section = document.querySelector( '.company-info' );
   const departmentHeader = document.querySelector( '.company-info__header' );
   const coworkers = document.querySelector( '.company-info__coworkers' );
@@ -36,6 +34,9 @@ async function checkDepartment() {
     coworkers.classList.add( 'hidden' );
     notHired.classList.remove( 'hidden' );
   } else {
+    const { users } = mycoworkers[0];
+    const userDept = departments.find( dept => dept.uuid == department_uuid );
+
     section.classList.remove( 'justify-center', 'items-center' );
     departmentHeader.classList.remove( 'hidden' );
     coworkers.classList.remove( 'hidden' );
