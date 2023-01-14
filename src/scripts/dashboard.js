@@ -63,7 +63,7 @@ function showUserInfo( info = {} ) {
 
   name.innerText = username;
   mail.innerText = 'Email: ' + email;
-  profLevel.innerText = professional_level;
+  profLevel.innerText = professional_level || '';
   kindWork.innerText = kind_of_work || '';
 }
 showUserInfo( userInfo );
