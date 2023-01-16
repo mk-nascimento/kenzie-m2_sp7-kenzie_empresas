@@ -189,9 +189,7 @@ function renderDepartmentsByCompany() {
   } )
 }
 renderDepartmentsByCompany()
-//
-// Form -- Area
-//
+
 function formPostDepartment() {
   const form = `<form id="form-post-dept" class="bg-[var(--grey-1)] flex flex-col gap-[14px]">
     <span id="x-close" class="absolute top-[16px] right-[16px] hover:scale-110 cursor-pointer"><img src="/src/assets/img/close.svg"></span>
@@ -227,9 +225,7 @@ function formEditDepartment() {
 
   return form;
 }
-//
-//
-//
+
 function createDepartmentForm() {
   const modal = document.getElementById( 'default-dialog' );
   const button = document.getElementById( 'create-department' );

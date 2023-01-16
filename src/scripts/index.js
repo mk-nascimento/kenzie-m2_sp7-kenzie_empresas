@@ -59,7 +59,7 @@ async function renderhomeJobs( sector ) {
 
 function createOptionSector( sectorCompany ) {
   const li =
-    `<li class='sector py-[6px] px-[20px] border shadow-xl'>${sectorCompany}</li>`// hover:scale-[1.025]
+    `<li class='sector py-[6px] px-[20px] border shadow-xl'>${sectorCompany}</li>`
   return li;
 }
 
